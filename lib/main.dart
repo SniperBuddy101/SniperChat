@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sniper_chat/constants.dart';
+import 'package:sniper_chat/screens/loading_page.dart';
 import 'package:sniper_chat/screens/welcome_screen.dart';
 import 'package:sniper_chat/screens/login_screen.dart';
 import 'package:sniper_chat/screens/registration_screen.dart';
@@ -7,9 +8,13 @@ import 'package:sniper_chat/screens/chat_screen.dart';
 import 'package:sniper_chat/screens/chat_list.dart';
 import 'package:sniper_chat/screens/new_user_chat.dart';
 
+
 void main() => runApp(SniperChat());
 
 class SniperChat extends StatelessWidget {
+
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,8 +26,12 @@ class SniperChat extends StatelessWidget {
         ChatScreen.id: (context) => ChatScreen(),
         ChatListScreen.id: (context) => ChatListScreen(),
         NewUserChatScreen.id: (context) => NewUserChatScreen(),
+        LoadingPage.id: (context) => LoadingPage(),
       },
-      initialRoute: WelcomeScreen.id,
+      initialRoute: LoadingPage.id,
     );
+
   }
 }
+
+

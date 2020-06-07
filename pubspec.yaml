@@ -1,7 +1,7 @@
 name: sniper_chat
 description: A one to one chat app built using Flutter and Firebase.
 
-version: 1.0.2+1
+version: 1.0.3+1
 
 environment:
   sdk: ">=2.1.0<3.0.0"

@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           email: emailAddress, password: password);
                       if (user != null) {
                         FirebaseUser user = await _auth.currentUser();
-                        Navigator.pushNamed(context, ChatListScreen.id);
+                        Navigator.pushNamedAndRemoveUntil(context, ChatListScreen.id, (Route theRoute) => false);
                       }
                     } catch (e) {
                       print(e);

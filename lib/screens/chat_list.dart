@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sniper_chat/constants.dart';
+import 'package:sniper_chat/screens/welcome_screen.dart';
 import 'list_items.dart';
 import 'new_user_chat.dart';
 
@@ -84,17 +85,20 @@ class _ChatListScreenState extends State<ChatListScreen> {
                     });
               } else {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 0.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 40.0, vertical: 0.0),
                   color: kSecondaryColor,
                   child: Center(
                     child: Card(
                       color: kPrimaryColor,
                       elevation: 10.0,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.0, vertical: 20.0),
                         child: Text(
                           "No chats found.\nAdd a chat to see it here.",
-                          style: TextStyle(color: kSecondaryColor, fontSize: 20.0),
+                          style:
+                              TextStyle(color: kSecondaryColor, fontSize: 20.0),
                         ),
                       ),
                     ),
@@ -109,34 +113,55 @@ class _ChatListScreenState extends State<ChatListScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
+      child: WillPopScope(
+        onWillPop: () {
+          return showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("Wanna exit the app?"),
+                  actions: <Widget>[
+                    FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: Text("Yes")),
+                    FlatButton(onPressed: (){
+                      Navigator.of(context).pop(false);
+                    }, child: Text("No"))
+                  ],
+                );
+              });
+        },
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+              backgroundColor: kPrimaryColor,
+              child: Icon(Icons.add),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NewUserChatScreen(
+                              user: user,
+                            )));
+              }),
+          appBar: AppBar(
             backgroundColor: kPrimaryColor,
-            child: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NewUserChatScreen(
-                            user: user,
-                          )));
-            }),
-        appBar: AppBar(
-          backgroundColor: kPrimaryColor,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  Navigator.pop(context);
-                  _auth.signOut();
-                })
-          ],
-          title: Text(
-            "SniperChat",
+            actions: <Widget>[
+              IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(context, WelcomeScreen.id, (route) => false);
+                    _auth.signOut();
+                  })
+            ],
+            title: Text(
+              "SniperChat",
+            ),
           ),
-        ),
-        body: Container(
-          child: builderOrNo(),
+          body: Container(
+            child: builderOrNo(),
+          ),
         ),
       ),
     );

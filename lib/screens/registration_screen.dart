@@ -138,7 +138,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         await documentReference.setData(
                             {"emailAddress": currentUser.email, "name": name});
                         if (authResult != null) {
-                          Navigator.pushNamed(context, ChatListScreen.id);
+                          Navigator.pushNamedAndRemoveUntil(context, ChatListScreen.id, (Route theRoute) => false);
                         }
                       } catch (e) {
                         print(e);
